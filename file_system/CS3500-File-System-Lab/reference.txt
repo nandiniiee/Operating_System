@@ -1,0 +1,69 @@
+I did not collaborate with any of my classmate for this assignment. However, I did use material available on internet and also used generative AI for this assignment
+
+1. https://mit-pdos.github.io/xv6-riscv-book/fs.html
+   Used for understanding the xv6 file system architecture, inode structure, block allocation, directory entries, inode locking, and file operations
+
+2. https://pdos.csail.mit.edu/6.828/2021/labs/fs.html
+   Used for understanding large-file support, direct and indirect block addressing, and symbolic-link concepts
+
+3. https://www.geeksforgeeks.org/operating-systems/inode-in-operating-system/
+   Used as supplementary reading on inode structures and direct, single indirect, and double indirect block pointers
+4. https://stackoverflow.com/questions/59985900/xv6-system-panic-when-attempt-to-read-big-file
+   Used as supplementary material when understanding double-indirect block addressing in xv6.
+
+Gen AI usage
+AI tool: ChatGPT (OpenAI), model: GPT-6.
+1. Section 2-
+   Prompts/topics discussed:
+    - asked for help understanding the on-disk inode structure and the relevant fields.
+    - asked for explanations of the inode-related questions in the lab.
+    - asked for help understanding how inode metadata and block addresses are represented.
+   AI assistance received:
+    - Explained the purpose of inode fields and their relationship to file-system metadata.
+    - Helped clarify how inode information and data-block addresses are stored and interpreted.
+   How the assistance was used: Used the explanations to understand the relevant file-system concepts and prepare the written answers in answers-fs.txt.
+
+2. Section 3-
+   Prompts/topics discussed:
+    - asked how direct and single-indirect block addresses should be traversed and printed.
+    - asked for help understanding the relevant inode and block-mapping structures.
+  AI assistance received: Explained the traversal of direct and indirect block pointers and told about the relationship between logical file blocks and physical disk blocks.
+  How the assistance was used: Used the explanations and implementation suggestions while working on kernel/fs.c
+
+3. Section 4-
+    Prompts/topics discussed:
+     - asked for detailed guidance on extending xv6 to support double-indirect block addressing.
+     - asked which changes were required in NDIRECT, MAXFILE, struct dinode, and struct inode.
+     - asked for explanations and debugging help for changes to bmap(), itrunc(), and itreeprint().
+    AI assistance received:
+    - explained how direct, single-indirect, and double-indirect block addressing work.
+    - helped identify the places that needed to be updated consistently to support the new block-addressing scheme.
+    How the assistance was used: Used the guidance to understand and implement the large-file changes in the xv6 file-system code.
+
+4. Section 5-
+   Prompts/topics discussed:
+    - asked how symbolic-link targets should be stored and how sys_open() should resolve links.
+    - asked for help understanding relative paths, absolute paths, dangling links, symbolic-link chains, and loop detection.
+    - asked for debugging assistance.
+   AI assistance received: 
+    - explained the symbolic-link resolution requirements and the distinction between following a link and opening it with O_NOFOLLOW.
+    - reviewed the shared sysfile.c implementation and identified the incorrect length-validation condition that caused the MAXPATH test failure.
+    - explained the cause of the failed manual cat link test: the link target file had not yet been created.
+  How the assistance was used: applied the identified validation correction, rebuilt xv6, and reran the tests.
+
+5. Prompt used: Explain the on-disk inode structure in xv6. What does each field represent, how are file metadata and block addresses stored, and how does the inode relate to the actual data blocks?
+   Response I got: ChatGPT explained the inode fields, including the file type, device numbers, link count, file size, and block addresses. It also explained how inode metadata is stored separately from the actual file contents.
+   How i used: I used the explanation to understand the inode structure and the relationship between inode metadata and data blocks. This helped me answer the conceptual questions in the lab's written-answer file.
+
+6. Prompt used: Explain how direct and single-indirect block pointers work in xv6. I need to understand how to traverse these pointers to print the block tree of a file. Please explain the relevant data structures and functions step by step.
+   Response I got: ChatGPT explained how an inode's direct addresses point to data blocks, while its indirect address points to a block containing further data-block addresses. It also explained how the block-mapping logic can be used to understand the file's block structure.
+
+7. Prompt used: Explain how symbolic links work in xv6. How should a symbolic-link target be stored in an inode, and what is the difference between following a symbolic link and opening it with O_NOFOLLOW?
+   Response I got: ChatGPT explained that a symbolic link stores the pathname of its target rather than directly referring to the target's inode. It described the purpose of the symbolic-link inode type and the O_NOFOLLOW flag.
+   How i used: I used the explanation to understand the symbolic-link representation and the expected behaviour of opening a symbolic link with and without O_NOFOLLOW.
+
+8. Prompt used: How should relative symbolic-link paths be resolved? Explain what happens when a symbolic link points to another symbolic link, and why the directory containing each link matters.
+   Response: ChatGPT explained that a relative target must be interpreted with respect to the directory containing the symbolic-link entry. It also explained how this applies when resolving chains of symbolic links and why the implementation must limit the number of links followed.
+   How i used: I used the explanation to understand relative-path resolution, symbolic-link chains, and loop prevention. This helped me reason about the path-resolution behaviour and test cases.
+ 
+

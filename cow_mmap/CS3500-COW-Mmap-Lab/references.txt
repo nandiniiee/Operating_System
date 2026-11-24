@@ -1,0 +1,21 @@
+I did not collaborate with anyone for this assignment. However, I used multiple resources for solving this assignment. The resources are mentioned below.
+
+1. I used the MIT xv-6 reference book to go thru the chapters and get knowledge
+2. https://www.geeksforgeeks.org/operating-systems/copy-on-write/
+3. https://www.geeksforgeeks.org/operating-systems/memory-mapped-files-in-os/
+4. https://stackoverflow.com/questions/27161412/how-does-copy-on-write-work-in-fork
+5. https://stackoverflow.com/questions/13813636/how-does-copy-on-write-in-fork-handle-multiple-fork
+6. https://stackoverflow.com/questions/4046192/interaction-of-fork-and-user-space-memory-mapped-in-the-kernel
+7. https://stackoverflow.com/nocaptcha?s=fcaa910e-4535-4dd1-8cc5-8e559fe0ab2e
+
+Generative AI use:
+1. The prompt that i used was " Explain how copy-on-write works in xv6. Why do the parent and child initially share physical pages after fork()?"
+   The response that i got was: ChatGPT explained the motivation behind COW, how parent and child processes can share physical pages, why writable mappings need protection, and how a write fault can trigger allocation and copying of a private page. It also explained the role of physical-page reference counts when pages are shared across processes.
+   How I used it: I used the explanation to understand the expected behavior of fork() under COW and to reason about page sharing, write protection, page faults, and page reference counts while reviewing and testing my implementation.
+2. The prompt that I used was " Explain mmap() and munmap() in the context of the xv6 operating system lab. Explain MAP_SHARED and MAP_PRIVATE, file-backed virtual memory, lazy allocation, page faults, and when modified pages should be written back to a file. "
+   The response that i got was: ChatGPT described the purpose of memory-mapped files and the differences between shared and private mappings. It explained how a process can access mapped file contents through virtual memory, how pages may be loaded on demand, and why unmapping requires careful handling of resident pages and file write-back.
+   How I used it: I used the explanation to understand the intended semantics of my mmap() and munmap() implementation, especially the differences between private and shared mappings, handling pages that were never loaded, and writing modified shared pages back to the file.
+3. The prompt that I used was: Explain what the failing tests and kernel error messages imply, identify which parts of the implementation I should inspect first, and suggest a systematic debugging approach. Avoid suggesting unrelated changes, and explain why each possible cause could produce the observed failure.
+   The response that i got was: ChatGPT suggested using the failing test, panic message, and relevant kernel execution path to narrow down possible causes. It recommended checking address validation, page-table traversal, page allocation and deallocation, reference-count handling, and cleanup paths instead of making unrelated changes.
+   How I used it: I used the guidance to structure my debugging process, inspect the relevant code paths, and test hypotheses against the observed failures. I made and evaluated changes in my own working implementation and reran the relevant tests to check whether the behavior improved.
+

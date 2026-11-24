@@ -1,0 +1,36 @@
+There was no collaboration with my fellow peers. However, I did take help of referenes from the internet and also used help of genAI to debug my code for the exec part (last part of the assignment)
+
+References taken:-
+1. Course/lab materials
+2. MIT xv6 documentation and book : https://pdos.csail.mit.edu/6.1810/2025/labs/util.html
+   This was used to have a better understanding of the assignment and also to understand the source code and get better ideas for implementaion
+3. MIT xv6 Book: used for underastanding the conepts required for this lab and system calls in specific
+4. https://www.geeksforgeeks.org/c/basics-file-handling-c/ 
+   used to understand how file descriptors and file handling is done in c
+5. https://stackoverflow.com/questions/19099663/how-to-correctly-use-fork-exec-wait
+   used to understand how fork, exec and wait are implemented 
+6. https://stackoverflow.com/questions/58161259/how-to-pass-parameters-and-use-them-using-exec-in-c
+   to understand how to pass arguments correctly
+7. https://stackoverflow.com/questions/37915049/recursive-listing
+   to learn how to skip "." and directory traversin
+8. https://stackoverflow.com/questions/31768830/getting-full-file-path-during-recursive-file-walk-c
+   to learn how to get full path during directory traversing
+9. https://en.cppreference.com/c/string/byte/strcmp
+   for syntax of c
+10. https://stackoverflow.com/questions/50270747/trying-to-print-out-useful-data-from-memory
+    to learn ways on how to print memory address
+11. https://stackoverflow.com/questions/30354097/how-to-printf-a-memory-address-in-c
+    to understand how to print pointers in hexadecimal
+12. Generative AI Usage: used to debug exec() issues
+    used chatgpt with the prompt " I have implemented the xv6 find utility using open, read, fstat, recursion and strcmp. The basic tests are passing but the -exec related tests are not passing in the grade utility that has beeen provided to me. I am pasting the code that I have written. Please help me identiy the cause of failiure and explain what i should inspect. NOTE that do no provide a complete implementation or do not give me the full code. Just explain the debugging steps and things i should look into to"
+    The response given was used to understand the cause of failing some test cases. Got to know the use of fokr() and wait() and also about the construction of the ardument array that is passed to the exec
+13. GenAI usage: used to check the implementatiomn
+    used chatGPT with the prompt "The find tests are passing but the exec tests are failing while the multi args and recursive tests are behaving differently. I am pasting the output the grading utility gave. Analyze it and explain wat the output indicates about my exec failyre. NOTE do not tell me the implementation. just explain me about what i doing wrong"
+    The response given was ussed tonarrow down the debugging issue and verify the expected behavior of find -exec
+14. GenAI usage: to solve terminal issues
+    ChatGPT was used with the prompt "My xv6 project is running inside Docker on an Apple Silicon Mac. 'make qemu' fails with a missing stdarg.h error referring to a /nix/store path. The RISC-V compiler itself can locate stdarg.h correctly. Analyze the error and suggest terminal commands I can use to clean stale dependency files and rebuild the affected targets."
+    The response suggested to remove the .d files before rebuilding
+    commands given by genAI: rm -f kernel/*.d user/*.d and then make qemu
+15. ChatGPt was used with the prompt "After fixing the RISC-V compiler dependency issue, make qemu reaches mkfs/mkfs but fails with a Rosetta error involving ld-linux-x86-64.so.2. Tell me what to do to rebuild the environment to run my program ater changing to Apple Silicomn"
+    The response suggested rebuilding mkfs/mkfs using gcc inside the container.
+    commands given but genAI: rm -f mkfs/mkfs and gcc -Werror -Wall -I. -o mkfs/mkfs mkfs/mkfs.c

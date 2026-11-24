@@ -1,0 +1,72 @@
+# SECTION 2
+The pagetable program prints the page-table entries ofr the first 10 virtual pages and the last 10 virtual pages of the process.
+For each entry of the page table, the page table entry contains the physical page number togehter with flags describing whether the page is valid or not and also tells us about read, write and execution permissions. 
+The permission bits are- V Valid, R Read, W Write, X Execute, U User accessible, A accessed and D Dirty
+
+First 10 virtual pages-
+1. va 0x0 pte 0x21FC885B pa 0x87F22000 perm 0x5B
+Meaning- contains the beginning of the user program's code. Mapped to physical address 0x87F22000. Permission is 0x5B which means 0101 1011 which means that the valid, read, execute, user and access bits are set. Hence, readable and executable but not writable. It is mapped because the process needs this page to execute its program
+
+2. va 0x1000 pte 0x21FC7C5B pa 0x87F1F000 perm 0x5B
+Meaning- also part of user code. Mapped to physical adress 0x87F1F000. Permission is 0x5B which means 0101 1011 which means that the valid, read, execute, user and access bits are set. Hence readable and excutable but not writable. It is mapped because the process needs this page to execute its program
+
+3. va 0x2000 pte 0x21FC7817 pa 0x87F1E000 perm 0x17
+Meaning- Mapped to physical address x87F1E000. Permission value is 0x07 which means 0000 0111 which means valid, read and write are set but it is not executable and user accessible. It is therefore a kernel only page 
+
+4. va 0x3000 pte 0x21FC7407 pa 0x87F1D000 perm 0x7
+Meaning- Mapped to physical address 0x87F1D000. Permission value is 0x07 which means 0000 0111 which means valid, read and write are set but it is not executable and user accessible. It is therefore a kernel only page 
+
+5. va 0x4000 pte 0x21FC70D7 pa 0x87F1C000 perm 0xD7
+Meaning- THis pade is corresponding to dynmaically allocated heap/,emory. It is mapped to physical address 0x87F1C000. Permission value is 0xD7 which is 1101 0111, meaning valid, read, weite, user, access and dirty are set. It is mapped because user needs writable memory for its execution.
+
+6. va 0x5000 pte 0x0 pa 0x0 perm 0x0
+Meaning- This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address. 
+
+7. va 0x6000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address. 
+
+8. va 0x7000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+9. va 0x8000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+10. va 0x9000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+Last 10 virtual pages
+1. va 0x3FFFFF6000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+2. va 0x3FFFFF7000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+3. va 0x3FFFFF8000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+4. va 0x3FFFFF9000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+5. va 0x3FFFFFA000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+6. va 0x3FFFFFB000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+7. va 0x3FFFFFC000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is not mapped. Its PTE, PA and permissions are all zeroes. Therefore, there is no valid physical page associated with this virtual address.
+
+8.va 0x3FFFFFD000 pte 0x0 pa 0x0 perm 0x0
+Meaning-This page is currently not mapped. Its PTE, PA and permissions are all zeroes but the virtual address is reserved for the USYSCALL page that was added later. So, it is expected that the page will get mapped later after the addition is done
+
+9. va 0x3FFFFFE000 pte 0x21FD08C7 pa 0x87F42000 perm 0xC7
+Meaning- The page is the process's trapframe page. Mapped to physical address 0x87F42000. Permission value is 0xC7 which is 1100 0111 meaning valid, read, write, access and dirty are set but its not executable and user accessible. The trapframe is used by the kernel to save the process's registers and other state when handling traps. It is therefore mapped in the process's page table but protected from direct user access.
+
+10. va 0x3FFFFFF000 pte 0x2000184B pa 0x80006000 perm 0x4B
+Meaning- Mapped to the Physical address 0x80006000. Permssion is 0x48 which is 0100 1011 which means valid, read, execute and access bits are set but its not writable and user accessible, 
+
+THe physical address need not be consecutive because the virtual to physical translation allowes the OS to place ohysical pages anywhere in the physical memory
+
+
+#SECTION 3
+

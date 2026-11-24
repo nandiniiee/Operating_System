@@ -1,0 +1,25 @@
+here was no collaboration with my fellow peers. However, I did take help of referenes from the internet and also used help of genAI to debug my code for the exec part (last part of the assignment)
+
+References taken:-
+1. Course/lab materials
+2. MIT xv6 documentation and book : https://pdos.csail.mit.edu/6.1810/2025/labs/util.html
+   This was used to have a better understanding of the assignment and also to understand the source code and get better ideas for implementaion
+3. MIT xv6 Book: used for underastanding the conepts required for this lab and system calls in specific
+4. https://www.geeksforgeeks.org/computer-networks/stub-generation-in-distributed-system/
+   To understand stub generation
+5. https://pdos.csail.mit.edu/6.1810/2026/labs/guidance.html
+   To learn more about how to use the GNU debugger
+6. https://www.geeksforgeeks.org/operating-systems/xv6-operating-system-adding-a-new-system-call/
+   To understand how new system calls are generated in xv6
+7. https://stackoverflow.com/questions/8021774/how-do-i-add-a-system-call-utility-in-xv6
+   To get a better understanding of adding system calls to xv6 and the flow that has to be followed
+8. https://pdos.lcs.mit.edu/6.828/2026/labs/syscall.html
+   Used this Syscall Lab guide from MIT to get hints about interpose system call, mask and fork inheritance
+6. Generative AI-
+   (a) Prompt- "What is user stub in OS?"
+       The given response was "In an operating system, a user stub is a small piece of code in user space that acts as a local proxy or interface. It translates and forwards function calls from a user application to the kernel or a remote server." 
+       The response was used to get a deeper understanding of how system call works
+   (b) Prompt- "I am implementing Assignment 5.2 (Sandbox a Command) in xv6. The requirement is to add an interpose system call that takes a syscall mask and a path, stores the mask for the calling process, and makes the mask inherited by children created using fork. I have already added the syscall_mask field to struct proc, initialized it in allocproc(), and copied it in kfork(). I also added SYS_interpose to the syscall table. Can you explain what remaining changes are needed and where the syscall mask should be checked so that a masked system call is rejected?"
+      The given response was "The syscall mask should be checked in the central syscall() dispatcher, before the requested syscall handler is called. For syscall number num, the kernel can test whether the corresponding bit is set using a bitwise AND with (1 << num). If the bit is set, the syscall should be rejected, typically by setting the return value to -1 instead of calling the handler. The interpose system call itself should retrieve the mask using argint(), retrieve the path argument using argstr(), and store the mask in the current process's syscall_mask. Since the assignment only uses "-" as the path in this part, the path does not need to be used yet. Fork inheritance is handled by copying the parent's syscall_mask into the newly allocated child process in kfork()."
+      The response was used to understand where syscall filtering should be implemented and why the check belongs in syscall() rather than separately inside every system call.
+   (c) Prompt- 

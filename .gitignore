@@ -1,9 +1,11 @@
+.DS_Store
 *.o
 *.d
 *.asm
 *.sym
 *.img
-.DS_Store
+*.img.bk
+*.zip
 **/kernel/kernel
 **/user/_*
 **/mkfs/mkfs

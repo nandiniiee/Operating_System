@@ -1,0 +1,20 @@
+There was no collaboration with my fellow peers. However, I did take help of referenes from the internet and also used help of genAI to debug my code 
+
+References taken:-
+1. Course/lab materials
+2. MIT xv6 documentation and book : https://pdos.csail.mit.edu/6.1810/2025/labs/util.html
+   This was used to have a better understanding of the assignment and also to understand the source code and get better ideas for implementaion
+3. MIT xv6 Book: used for underastanding the conepts required for this lab and trap handling 
+4. https://www.geeksforgeeks.org/operating-systems/context-switch-in-operating-system/
+5. https://www.geeksforgeeks.org/computer-organization-architecture/stack-frame-in-computer-organization/
+6. https://stackoverflow.com/questions/75780490/order-of-execution-of-system-call-in-xv6
+7. https://stackoverflow.com/questions/40052706/restoring-stackframe-in-x86
+8. The prompt I used was "I am implementing the user-level alarm handler in xv6 for the CS3500 Traps lab. Explain how a timer interrupt travels through usertrap() and how changing trapframe->epc causes the user alarm handler to execute. I want to understand the mechanism so I can implement it myself rather than having the complete solution generated."
+   The ouput was it explained how the usertrap() saves the current user program coutner in the trapfram and how on expirationof the alarm, the kernel changes the saved epc. 
+   The explanation was used to understand the control flow beteween usertrap() and trapframe
+9. The prompt used was " My xv6 alarmtest produces test0 passed, but test1 failed: a0 not preserved. I have implemented sigalarm and sigreturn. Explain what could cause the a0 register to change when returning from an alarm handler. Please help me trace the register through the syscall and trapframe rather than simply giving me a complete solution."
+   The output was that it explained that sigreturn itself is a system call and that the return value of a system call is placed in register a0. Suggested approach was to save the original a0 from the saved alarm trapframe.
+   I used this reasoning to modify my sys_sigreturn() so that the interrupted value of a0 is preserved.
+10. The prompt I used was "I am getting these compiler errors in kernel/sysproc.c: pointer targets in passing argument 2 of argint differ in signedness and interval is used uninitialized. Explain what these errors mean and what I should change without rewriting the entire function for me."
+   The output I got was that it explained that argint() expects an int* while I had passed the address of a uint causing the mismatch
+   I used this explanation to correct the variable types and argument handling in my sys_sigalarm().

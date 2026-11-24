@@ -1,0 +1,10 @@
+(Q)5.1.2 (tracing system call)
+
+  1. usertrap() is the function which called syscall()
+  2. The value of p->trapframe->a7 is 15 and it represents the system call open() (SYS_OPEN). the open system called in init.asm loads 15 into a7 and then executes ecall
+  3. The CPU was in User Mode previously (SPP bit of sstatus is 0)
+  4. -
+  5. The assembly instruction where the kernel is panicking is: lw a3, 0(zero) . The register a3 corresponds to variable num.
+  6. Using layout.asm we found that the current instruction is the same instruction that we identified as the faulting instruction in kernel.asm thus confirming it
+  7. We did num=*(int *)0 which tells the CPU to read an integer from virtual address 0. when the cpu tries to access VA 0, it goes to page table translation and find no valid mapping in there and thus a load page fault occurs. Basically, address 0 is not mapped in kernel's address space so we cannot translate the address to a valid physical page and thus a page fault is executed. Our scause was 0xd which is 13 which tells that it was load page fault. 
+  8. The process running when kernel panicked was "init" and the pid was "1".

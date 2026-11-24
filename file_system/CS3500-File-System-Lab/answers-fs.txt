@@ -1,0 +1,81 @@
+SECTION 2
+ANSWER 1 :-
+  (a) size 200000 - represents the total number of blocks in filesystem. mkfs sets it using FSSIZE. The kernel uses sb.size in balloc() in kernel/fs.c to determine the filesystem boundary while searching for free blocks.
+  (b) nblocks 199328 - represents the number of data blocks available after we have taken into consideration metadata blocks. mkfs calculates it as FSSIZE-nmeta. The kernel does not directly use sb.nblocks
+  (c) ninodes 200 - total number of inodes in filesystem. mkfs sets it using NINODES. The kernel uses sb.ninodes.
+  (d) nlog 241- number of blocks reserved for the filesystem log, including the log header block. mkfs sets it to LOGBLOCKS + 1. Kernel doesnt directly use sb.nlog
+  (e) logstart 2 - disk block number at which the log begins. mkfs sets it to 2 because block 0 is the boot block and block 1 is the superblock. The kernel uses sb.logstart to initalize the logging system
+  (f) inodestart 243 - first disk block containing the inode table. mkfs calculates it as 2 + nlog. The kernel uses it through the IBLOCK
+  (g) bmapstart 256 - first disk block containing the block allocation bitmap. mkfs calculates it as 2 + nlog + ninodeblocks. The kernel uses it through the BBLOCK
+  (h) refstart 281 -  first disk block containing reference-count information for filesystem blocks. mkfs calculates it as 2 + nlog + ninodeblocks + nbitmap. Used through RBBLOCK
+The kernel reads the superblock during filesystem initialization. 
+
+ANSWER 2 :-
+The file size is measured in bytes whereas disk allocation takes place in blocks. 
+since BSIZE=1024 bytes thus the number of data blocks required for a file of 2441 bytes is 
+  no of blocks= 2441/1024= rounded off to 3
+  therfore first two blocks contains the 2048 bytes and the third block contains the remaning 393 bytes.
+one non-zero inode entry can indirectly refer to many data blocks. 
+When a new disk block is allocated, balloc() calls bzero(), which initializes the entire block to zero using memset(). This ensures that unused bytes in the final allocated block are initialized to zero.
+A file read cannot return bytes beyond file's recorded size. 
+
+ANSWER 3 :-
+The block size is 1024 bytes. for byte offset of 1500
+  the logical block number=1500/1024=1
+  offset within the block=1500%1024=476
+  since logical block number 1 corresponds to addrs[1], the required disk block is: addrs[1]=674
+  therefore, disk block 674 holds byte offset 1500, at byte position 476 within that block. 
+For byte offset  300000
+  logical block number=  300000/1024=292
+  current file has a size of only 2441 bytes, so offset  300000 lies beyond its end and has no allocated data block in this file
+Also NDIRECT+NINDIRECT=12+256=268 blocks. Therefore initially, logical block 292 cannot be represented by our initial layut
+After section 4, filesystem will support double-indirect addressing. The file must have a size of at least 300001 bytes to contain byte offset 300000. So, For our logical block 292,
+  the new layout has 11 direct pointers, 256 single indirect data block pointers and double indirect addressing
+  therefore, for logical block 292, 292-11=281
+  281-256=25
+  the first first 256 blocks belong to single indirection, and then 25 blocks belong to double indirection region
+  outer index=25/256=0
+  inner index=25%256=25
+The double-indirect root is addrs[12]. Its entry 0 points to a singly-indirect block.
+Entry 25 in that singly-indirect block points to the required data block.
+
+ANSWER 4 :-
+In initial layout, NDIRECT=12, BSIZE=1024, sizeof(uint)=4
+therefore, the number of addresses that fit in one indirect block is-
+ NINDIRECT=1024/4=256
+ max no. of data blocks is: MAXFILE=NDIRECT+NINDIRECT=12+256=268 blocks
+Therefore the max file size is: 268 * 1024=274432 bytes
+Therfore, the largest file supported by starter layout is 268 data blocks or 274432 bytes
+
+ANSWER 5 :-
+inode contains NDIRECT+1 address entries. the firs NDIRECT entries, addrs[0] through addrs[11], directly contain the disk block address of file data
+the last entry, addrs[12], does not directly point to file data.  It points to an indirect block containing up to NINDIRECT additional data-block addresses.
+The file's data blocks are not necessarily contiguous on disk because the filesystem allocator assigns available free blocks as they are requested. Other files and filesystem metadata may occupy blocks between the allocated blocks 
+
+
+SECTION 4
+ANSWER :- For the original block size of 1024 bytes, the max size file contains 65803 data blocks
+          The pointer block contains 1 singly indrect block, 1 doubly indirect block and 256 singly indirect block below the doubly indirect ones
+          THerefore, totla pointer blocks are 1+1+256=258 blocks
+          thus, total allocated blocks become 65803+258=66061
+          hence, fraction of allocated blocks used for pointers is 258/66061=0.0039 which is 0.39%
+          now, for bsize=4096, NINDIRECT=4096/4=1024
+          now, the max number of data blocks become= 11+1024+1024*1024=1049611
+          now, the pointer block consists of 1 singly indirect block, 1 double indirect block and 1024 singly indirect block
+          therefore, total pointer blocks= 1+1+1024=1026
+          thus, total allocated block becomes 1049611+1026=1050637
+          thus, fraction becomes 1026/1050637=0.0009765 which is 0.097%
+        Thus, increasing the block size from 1024 to 4096 bytes reduces the fraction of allocated blocks for pointers. Each pointer block can now hold more block addresses
+
+SECTION 5
+ANSWER 1 :- Holding up a sumbolic link inode while looking up its target can cause deadlocks. For eg, if symbolci link forms a cycle, then resolving the link may result in attempting to acquire the lock of inode that is already locked by same lookup.
+            My implementaion reads and validates the stored target pathname while holding the symbolic link inode lock. It releases inode lock and drops inode reference before performing next pathname lookup.
+            This prevents current symbolic link inode lock from being helpd while resolving its target. My implementation also follows links iteratively
+
+ANSWER 2 :- Relative symbolc link targets are resolved using directory contaiming the symoloc link directory entry being followd. 
+            initally, path name is a/first, then the first syboloic link stores ../b/second
+            since first link is located in dir a, its relative target is expanddd to: a/../b/second
+            this resolves to b/second
+            the second symbolic link is located in directory b and stores file. Its realtive target is resolved using dir b, producing b/file. directory a is not used and process's current working dir is also not used. dir b is used.
+            therefore, each symbolic link in the chain uses the directory containing its own directory entry. 
+

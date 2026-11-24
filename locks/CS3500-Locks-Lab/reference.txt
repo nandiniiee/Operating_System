@@ -1,0 +1,24 @@
+I did not collaborate with any of my classmates for this assignment. But, I did use Generative AI to understand and debug my code along with other open source links available on the internet
+
+1. https://www.geeksforgeeks.org/operating-systems/readers-writers-problem-set-1-introduction-and-readers-preference-solution/
+2. https://www.geeksforgeeks.org/operating-systems/readers-writers-problem-writers-preference-solution/
+3. https://stackoverflow.com/questions/12033188/how-would-you-implement-your-own-reader-writer-lock-in-c11
+4. https://stackoverflow.com/questions/19482648/reader-writer-lock-in-pthread
+5. https://github.com/mit-pdos/xv6-book/blob/master/lock.t
+6. https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html
+
+7. The prompt that I used was: “How should a reader-writer spinlock work? Explain how multiple readers can access a critical section concurrently while writers require exclusive access. Also explain writer priority.”
+   The response that I got was: explained the difference between shared reader access and exclusive writer access, along with the importance of preventing new readers from acquiring the lock when a writer is waiting.
+   How I used: This helped clarify the synchronization requirements and the intended behavior of the lock.
+8. The prompt that I used was: “My xv6 rwlktest is failing the writer-priority tests with messages such as ‘reader sneaked ahead of waiting writer’. Help me understand the cause and identify the synchronization issue.”
+   The response that I got was: helped analyze the test output and explained that checking the writer state and incrementing the reader count must be coordinated atomically with respect to other lock operations. It also explained how a waiting-writer counter can prevent new readers from entering while a writer is waiting.
+   How I used: was used to review the locking logic and correct the synchronization mechanism.
+9. The prompt that I used was: “My implementation compiles and runs, but some reader-writer lock tests fail. Help me interpret the test output and determine what behavior needs to be corrected without making unrelated changes.”
+   The resppnse that I got was: helped interpret the failing test messages, distinguish writer-priority failures from other synchronization checks, and identify the relevant parts of the implementation to review. The modified implementation was then rebuilt and tested using the xv6 lab test suite.
+   How I used: Used to rebuild my solution
+10. The prompt that I used was: “Explain the correct sequence of operations for read acquisition, read release, write acquisition, and write release in a writer-priority reader-writer lock.”
+    The response that I got was: explained the state changes required for each operation and the conditions under which readers and writers can proceed.
+    How I used: helped me review the implementation to ensure that reader counts and writer state were updated consistently and that invalid release operations could be detected.
+11. The prompt that I used was: “Explain why xv6 uses push_off() and pop_off() around spinlock operations. How do they relate to interrupt handling and lock correctness?”
+    The response that I got was: The AI explained that these functions manage interrupt disabling and nesting so that code holding spinlocks is not interrupted in ways that could cause problematic lock interactions on the same CPU. 
+    How I used: helped me understand the purpose of retaining the interrupt-handling wrappers around the reader-writer lock operations.
