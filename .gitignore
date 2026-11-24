@@ -1,0 +1,10 @@
+*.o
+*.d
+*.asm
+*.sym
+*.img
+.DS_Store
+**/kernel/kernel
+**/user/_*
+**/mkfs/mkfs
+**/.gdbinit
